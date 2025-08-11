@@ -7,7 +7,11 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 - [x] Estrutura arquivos
 - [x] HTML/CSS
-- [ ] Consulta e retorno API OpenIA
+- [x] Consulta e retorno API OpenIA
 - [ ] Melhoria layout
 - [ ] Melhoria validação
 - [ ] Consulta e retorno API Gemini
+- [ ] Aplicação publicada na Vercel
+
+### Como publicar na Vercel
+
