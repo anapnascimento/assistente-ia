@@ -29,7 +29,7 @@ body.dark-mode {
 
 body {
     font-family: "Roboto", sans-serif;
-    background: var(--bg-color);
+    background: var(--card-bg);
     color: var(--text-color);
 }
 
@@ -38,7 +38,7 @@ header {
     top: 0;
     width: 100%;
     height: 60px;
-    background-color: var(--card-bg);
+    background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
     align-items: center;
@@ -72,12 +72,21 @@ main {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    box-shadow: #d00;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+.container-box{
+    background-color: var(--bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 input,
@@ -91,7 +100,12 @@ button {
     color: var(--text-color);
     border-radius: 4px;
 }
-
+input::placeholder, textarea::placeholder{
+    color:var(--text-color);
+}
+.textarea{
+    margin-top: 10px;
+}
 button {
     background-color: var(--btn-bg);
     color: var(--btn-text);
@@ -161,7 +175,6 @@ button:disabled {
 .theme-switch input:checked+.slider::before {
     transform: translateX(24px);
     content: '☀️';
-    /*background-color: #fff;*/
     color: #000;
 }
 
