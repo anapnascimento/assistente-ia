@@ -7,6 +7,15 @@ const error = document.getElementById('error');
 const apiKeyInput = document.getElementById('apiKey');
 const modelSelect = document.getElementById('modelSelect');
 const themeCheckbox = document.getElementById('toggleThemeCheckbox');
+const historyList = document.getElementById('historyList');
+
+//salvar/carregar API Key
+if (localStorage.getItem('apiKey')) {
+  apiKeyInput.value = localStorage.getItem('apiKey');
+}
+apiKeyInput.addEventListener('input', () => {
+  localStorage.setItem('apiKey', apiKeyInput.value);
+});
 
 // Aplica o tema
 function aplicarTema(tema) {
@@ -57,6 +66,8 @@ btnPergunta.addEventListener('click', async () => {
     const resposta = await fetchIA(pergunta, apiKey, modelo);
     respostaDiv.textContent = resposta;
     respContent.classList.remove('hidden');
+    salvarHistorico(pergunta, resposta);
+    renderHistorico();
   } catch (erro) {
     error.textContent = `Erro: ${erro.message}`;
   } finally {
@@ -65,10 +76,39 @@ btnPergunta.addEventListener('click', async () => {
   }
 });
 
+//salvar no histórico
+salvarHistorico(pergunta, resposta);
+    renderHistorico();
+
+//função para Gemini
+async function fetchGemini(pergunta, apiKey) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const body = {
+    contents: [{ role: "user", parts: [{ text: pergunta }] }]
+  };
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const erro = await res.json();
+    throw new Error(erro.error?.message || 'Erro na API Gemini');
+  }
+
+  const data = await res.json();
+  return data.candidates[0].content.parts[0].text;
+}
+
 // Função de requisição para a OpenAI
 async function fetchIA(pergunta, apiKey, modelo) {
-  const endpoint = 'https://api.openai.com/v1/chat/completions';
+  if (modelo.startsWith("gemini")) {
+    return await fetchGemini(pergunta, apiKey);
+  }
 
+  const endpoint = 'https://api.openai.com/v1/chat/completions';
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
@@ -89,4 +129,33 @@ async function fetchIA(pergunta, apiKey, modelo) {
 
   const data = await res.json();
   return data.choices[0].message.content.trim();
+}
+//histórico
+function salvarHistorico(pergunta, resposta) {
+  let historico = JSON.parse(localStorage.getItem("historico") || "[]");
+  historico.push({ pergunta, resposta });
+  localStorage.setItem("historico", JSON.stringify(historico));
+}
+
+function renderHistorico() {
+  if (!historyList) return;
+  historyList.innerHTML = "";
+  let historico = JSON.parse(localStorage.getItem("historico") || "[]");
+  historico.forEach(item => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>P:</strong> ${item.pergunta}<br>
+                    <strong>R:</strong> ${item.resposta}`;
+    historyList.appendChild(li);
+  });
+}
+renderHistorico();
+
+//copiar resposta
+if (copyBtn) {
+  copyBtn.addEventListener('click', () => {
+    const texto = respostaDiv.textContent;
+    if (texto) {
+      navigator.clipboard.writeText(texto);
+    }
+  });
 }
