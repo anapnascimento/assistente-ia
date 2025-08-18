@@ -18,6 +18,7 @@
         <section class="container">
             <input type="password" id="apiKey" placeholder="Digite a sua API Key OpenIA" />
             <select id="modelSelect">
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash (Google)</option>
               <option value="gpt-4">GPT-4</option>
               <option value="gpt-4-turbo">GPT-4 Turbo</option>
               <option value="gpt-4o">GPT-4o (Omni)</option>
@@ -34,6 +35,10 @@
           <h2>Resposta da Aura Boti:</h2>
           <div id="resposta"></div>
         </section>
+        <secticon id="historico" class="resp-content">
+          <h2>Histórico</h2>
+          <ul id="historyList"></ul>
+        </secticon>
       </main>
 </body>
 <script src="script.js"></script>
