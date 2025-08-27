@@ -1,5 +1,6 @@
 // Elementos
 const btnPergunta = document.getElementById('btnPergunta');
+const btnLimpa = document.getElementById('btnLimpa');
 const userInput = document.getElementById('userInput');
 const respContent = document.getElementById('respContent');
 const respostaDiv = document.getElementById('resposta');
@@ -8,8 +9,9 @@ const apiKeyInput = document.getElementById('apiKey');
 const modelSelect = document.getElementById('modelSelect');
 const themeCheckbox = document.getElementById('toggleThemeCheckbox');
 const historyList = document.getElementById('historyList');
+const copyBtn = document.getElementById('copyBtn');
 
-//salvar/carregar API Key
+// LocalStorage - API Key
 if (localStorage.getItem('apiKey')) {
   apiKeyInput.value = localStorage.getItem('apiKey');
 }
@@ -17,29 +19,24 @@ apiKeyInput.addEventListener('input', () => {
   localStorage.setItem('apiKey', apiKeyInput.value);
 });
 
-// Aplica o tema
+// Tema (dark/light)
 function aplicarTema(tema) {
   if (tema === 'dark') {
-    document.body.classList.add('dark-mode');
+    document.body.classList.add('dark');
     themeCheckbox.checked = true;
   } else {
-    document.body.classList.remove('dark-mode');
+    document.body.classList.remove('dark');
     themeCheckbox.checked = false;
   }
 }
-
-// Altera o tema manual
 themeCheckbox.addEventListener('change', () => {
   const novoTema = themeCheckbox.checked ? 'dark' : 'light';
   localStorage.setItem('tema', novoTema);
   aplicarTema(novoTema);
 });
+aplicarTema(localStorage.getItem('tema') || 'light');
 
-// Tema salvo quando carrega
-const temaSalvo = localStorage.getItem('tema') || 'light';
-aplicarTema(temaSalvo);
-
-// Enviar pergunta para a API
+// Envia pergunta
 btnPergunta.addEventListener('click', async () => {
   const pergunta = userInput.value.trim();
   const apiKey = apiKeyInput.value.trim();
@@ -47,14 +44,17 @@ btnPergunta.addEventListener('click', async () => {
 
   error.textContent = '';
   respContent.classList.add('hidden');
+  error.classList.add('hidden');
   respostaDiv.textContent = '';
 
   if (!apiKey) {
+    error.classList.remove('hidden');
     error.textContent = 'API Key é obrigatória';
     return;
   }
 
   if (!pergunta) {
+    error.classList.remove('hidden');
     error.textContent = 'Digite uma pergunta.';
     return;
   }
@@ -69,16 +69,20 @@ btnPergunta.addEventListener('click', async () => {
     salvarHistorico(pergunta, resposta);
     renderHistorico();
   } catch (erro) {
+    error.classList.remove('hidden');
     error.textContent = `Erro: ${erro.message}`;
+
   } finally {
     btnPergunta.disabled = false;
     btnPergunta.textContent = 'Perguntar';
   }
 });
 
-//salvar no histórico
-salvarHistorico(pergunta, resposta);
-    renderHistorico();
+// Limpar input
+btnLimpa.addEventListener('click', () => {
+  userInput.value = '';
+  error.classList.add('hidden');
+});
 
 //função para Gemini
 async function fetchGemini(pergunta, apiKey) {
@@ -130,6 +134,7 @@ async function fetchIA(pergunta, apiKey, modelo) {
   const data = await res.json();
   return data.choices[0].message.content.trim();
 }
+
 //histórico
 function salvarHistorico(pergunta, resposta) {
   let historico = JSON.parse(localStorage.getItem("historico") || "[]");
@@ -143,6 +148,7 @@ function renderHistorico() {
   let historico = JSON.parse(localStorage.getItem("historico") || "[]");
   historico.forEach(item => {
     const li = document.createElement("li");
+    li.classList.add("history-item");
     li.innerHTML = `<strong>P:</strong> ${item.pergunta}<br>
                     <strong>R:</strong> ${item.resposta}`;
     historyList.appendChild(li);
@@ -150,7 +156,7 @@ function renderHistorico() {
 }
 renderHistorico();
 
-//copiar resposta
+// copiar resposta
 if (copyBtn) {
   copyBtn.addEventListener('click', () => {
     const texto = respostaDiv.textContent;
