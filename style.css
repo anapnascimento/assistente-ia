@@ -13,15 +13,17 @@
     --primary: #4c8bf5;
     --secondary: #f87171;
     --border: #dcdde1;
+    --error-color: #d00000;
 }
 
 body.dark {
     --bg: #1e1e2f;
     --text: #f5f6fa;
     --card-bg: #2c2c3a;
-    --primary: #6c5ce7;
-    --secondary: #b2bec3;
+    --primary: #422edf;
+    --secondary: #df1c1c;
     --border: #3d3d4a;
+    --error-color: #ff7373;
 }
 
 body {
@@ -169,6 +171,11 @@ textarea {
 
 .btn.secondary:hover {
     opacity: 0.85;
+}
+
+.error {
+    color: var(--error-color);
+    text-align: center;
 }
 
 .loader {
