@@ -216,4 +216,25 @@ textarea {
     display: none !important;
 }
 
+.accordion-item {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .accordion-header {
+    padding: 0.75rem;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  
+  .accordion-body {
+    padding: 0.75rem;
+    display: none;
+  }  
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');

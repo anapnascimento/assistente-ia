@@ -12,8 +12,8 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Melhoria validação
 - [x] Consulta e retorno API Gemini
 - [x] Aplicação publicada na Vercel
-- [ ] Tratamento da exibição das respostas
-- [ ] Tratamento de exibição do histórico
+- [x] Tratamento da exibição das respostas
+- [x] Tratamento de exibição do histórico
 
 ### Como acessar a aplicação na Vercel
 

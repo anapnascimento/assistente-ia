@@ -63,14 +63,15 @@ btnPergunta.addEventListener('click', async () => {
   btnPergunta.textContent = 'Carregando...';
 
   try {
-    const resposta = await fetchIA(pergunta, apiKey, modelo);
-    respostaDiv.textContent = resposta;
+    let resposta = await fetchIA(pergunta, apiKey, modelo);
+    resposta = marked.parse(resposta);
+    respostaDiv.innerHTML = resposta;
     respContent.classList.remove('hidden');
     salvarHistorico(pergunta, resposta);
     renderHistorico();
   } catch (erro) {
     error.classList.remove('hidden');
-    error.textContent = `Erro: ${erro.message}`;
+    error.innerHTML = `Erro: ${erro.message}`;
 
   } finally {
     btnPergunta.disabled = false;
@@ -138,7 +139,7 @@ async function fetchIA(pergunta, apiKey, modelo) {
 //histórico
 function salvarHistorico(pergunta, resposta) {
   let historico = JSON.parse(localStorage.getItem("historico") || "[]");
-  historico.push({ pergunta, resposta });
+  historico.unshift({ pergunta, resposta });
   localStorage.setItem("historico", JSON.stringify(historico));
 }
 
@@ -147,11 +148,20 @@ function renderHistorico() {
   historyList.innerHTML = "";
   let historico = JSON.parse(localStorage.getItem("historico") || "[]");
   historico.forEach(item => {
-    const li = document.createElement("li");
-    li.classList.add("history-item");
-    li.innerHTML = `<strong>P:</strong> ${item.pergunta}<br>
-                    <strong>R:</strong> ${item.resposta}`;
-    historyList.appendChild(li);
+    const div = document.createElement("div");
+    div.classList.add("accordion-item");
+  
+    div.innerHTML = `
+      <div class="accordion-header">${item.pergunta}</div>
+      <div class="accordion-body">${item.resposta}</div>
+    `;
+  
+    div.querySelector(".accordion-header").addEventListener("click", () => {
+      const body = div.querySelector(".accordion-body");
+      body.style.display = body.style.display === "block" ? "none" : "block";
+    });
+  
+    historyList.appendChild(div);
   });
 }
 renderHistorico();
