@@ -1,45 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Aura Boti - Assistente de IA</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Aura Boti - Assistente de IA</title>
 </head>
+
 <body>
-    <header>
-        <h1 class="title">Aura Boti</h1>
-        <label class="theme-switch">
-            <input type="checkbox" id="toggleThemeCheckbox">
-            <span class="slider"></span>
-          </label>
-    </header>
-    <main>
-        <section class="container">
-            <input type="password" id="apiKey" placeholder="Digite a sua API Key" />
-            <select id="modelSelect">
-              <option value="gemini-1.5-flash">Gemini 1.5 Flash (Google)</option>
-              <option value="gpt-4">GPT-4</option>
-              <option value="gpt-4-turbo">GPT-4 Turbo</option>
-              <option value="gpt-4o">GPT-4o (Omni)</option>
-            </select>
-        </section>
-        <section class="container">
-          <textarea id="userInput" rows="5" cols="33" placeholder="Digite sua pergunta..."></textarea>
-          <button id="btnPergunta">Perguntar</button>
-        </section>
-    
-        <section id="error" class="error"></section>
-    
-        <section id="respContent" class="resp-content hidden">
-          <h2>Resposta da Aura Boti:</h2>
-          <div id="resposta"></div>
-        </section>
-        <secticon id="historico" class="resp-content">
-          <h2>Histórico</h2>
-          <ul id="historyList"></ul>
-        </secticon>
-      </main>
+  <header class="header">
+    <img class="logo" src=img/icon_gb.png />
+    <h1>Aura Boti</h1>
+    <label class="theme-switch">
+      <input type="checkbox" id="toggleThemeCheckbox" />
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <main class="main">
+    <section class="card">
+      <input type="password" id="apiKey" placeholder="Digite sua API Key" />
+      <select id="modelSelect">
+        <option value="gemini-1.5-flash">Gemini 1.5 Flash (Google)</option>
+        <option value="gpt-4">GPT-4</option>
+        <option value="gpt-4-turbo">GPT-4 Turbo</option>
+        <option value="gpt-4o">GPT-4o (Omni)</option>
+      </select>
+    </section>
+
+    <section class="card">
+      <h2>Pergunta</h2>
+      <textarea id="userInput" rows="4" placeholder="Digite sua pergunta..."></textarea>
+      <div class="buttons">
+        <button id="btnPergunta" class="btn primary">Perguntar</button>
+        <button id="btnLimpa" class="btn secondary" onclick="clearInputField()">Limpar</button>
+      </div>
+    </section>
+
+    <section id="respContent" class="card hidden">
+      <h2>Resposta</h2>
+      <div id="loader" class="loader hidden">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div id="resposta"></div>
+    </section>
+
+    <section id="historico" class="card">
+      <h2>Histórico</h2>
+      <ul id="historyList"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
+
 </html>
