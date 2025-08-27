@@ -9,7 +9,7 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] HTML/CSS
 - [x] Consulta e retorno API OpenIA
 - [ ] Melhoria layout
-- [ ] Melhoria validação
+- [x] Melhoria validação
 - [x] Consulta e retorno API Gemini
 - [x] Aplicação publicada na Vercel
 - [ ] Tratamento da exibição das respostas
