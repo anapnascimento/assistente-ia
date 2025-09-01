@@ -264,5 +264,10 @@ textarea {
     color: #111827;
 }
 
+.charCount{
+    display: flex;
+    justify-content: end;
+    font-size: small;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');

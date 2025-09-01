@@ -193,3 +193,11 @@ if (copyBtn) {
     }
   });
 }
+
+// conta caracteres
+const charCount = document.getElementById('charCount');
+
+userInput.addEventListener('input', () => {
+  const comprimento = userInput.value.length;
+  charCount.textContent = `${comprimento} caractere${comprimento !== 1 ? 's' : ''}`;
+});
