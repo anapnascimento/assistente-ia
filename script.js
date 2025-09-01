@@ -150,17 +150,35 @@ function renderHistorico() {
   historico.forEach(item => {
     const div = document.createElement("div");
     div.classList.add("accordion-item");
-  
+
     div.innerHTML = `
       <div class="accordion-header">${item.pergunta}</div>
-      <div class="accordion-body">${item.resposta}</div>
+      <div class="accordion-body">
+      <button class="copy-btn" title="Copiar resposta">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2V8a2 2 0 
+              00-2-2h-2.586a1 1 0 01-.707-.293l-2.414-2.414A1 1 
+              0 0010.586 3H6a2 2 0 00-2 2v12a2 2 0 002 2h2" />
+        </svg>
+      </button>
+        <p>${item.resposta}</p>
+      </div>
     `;
-  
+
     div.querySelector(".accordion-header").addEventListener("click", () => {
       const body = div.querySelector(".accordion-body");
       body.style.display = body.style.display === "block" ? "none" : "block";
     });
-  
+
+    // Copiar resposta
+    div.querySelector(".copy-btn").addEventListener("click", () => {
+      navigator.clipboard.writeText(item.resposta).then(() => {
+        alert("Resposta copiada!");
+      });
+    });
+
     historyList.appendChild(div);
   });
 }
